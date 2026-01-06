@@ -9,8 +9,17 @@ if (idem_used()) {
 }
 
 $form = new Form();
-$form->addField('nome', '', [fn($v) => $v !== '' ? true : 'Nome é obrigatório']);
+$form->addField('name', '', [fn($v) => $v !== '' ? true : 'Nome é obrigatório']);
 $form->addField('email', '', [fn($v) => filter_var($v, FILTER_VALIDATE_EMAIL) ? true : 'Email inválido']);
+$form->addField('password', '');
+$form->addField('birth', '');
+$form->addField('age', '');
+$form->addField('profile', '');
+$form->addField('bio', '');
+$form->addField('notify', '');
+$form->addField('newsletter', '');
+$form->addField('beta', '');
+$form->addField('plan', '');
 
 $form->setData($_POST);
 
