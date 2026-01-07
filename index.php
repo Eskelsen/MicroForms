@@ -190,7 +190,7 @@ require_once 'app/Form.php';
         <h1>MicroForms</h1>
         <p class="subtitle">Formulário de exemplo completo (inputs, select, radio, checkbox)</p>
 
-        <form action="submit/index.php" method="post">
+        <form action="submit/index.php" id="form" method="post">
             <?= csrf(); ?>
             <?= idem(); ?>
             <div>
@@ -265,6 +265,44 @@ require_once 'app/Form.php';
         </form>
     </div>
 </div>
+
+<script>
+
+function microFormsFill(form, data) {
+  Object.entries(data).forEach(([name, value]) => {
+    const fields = form.querySelectorAll(`[name="${name}"]`);
+
+    fields.forEach(field => {
+      switch (field.type) {
+        case 'checkbox':
+          field.checked = value === 'on' || value === true || value === 1;
+          break;
+
+        case 'radio':
+          field.checked = field.value == value;
+          break;
+
+        case 'select-one':
+        case 'select-multiple':
+          field.value = value;
+          break;
+
+        default:
+          field.value = value ?? '';
+      }
+    });
+  });
+}
+
+let json = '{"name":"Daniel Eskelsen","email":"eskelsen@yahoo.com","password":"123123123","birth":"1988-02-27","age":"37","profile":"Administrador","bio":"Programador PHP Beta","notify":"on","newsletter":"","beta":"on","plan":"on"}';
+
+var data = JSON.parse(json);
+
+const form = document.querySelector('#form');
+
+microFormsFill(form, data);
+
+</script>
 
 </body>
 </html>
