@@ -15,6 +15,7 @@ $form->addField('password', '');
 $form->addField('birth', '');
 $form->addField('age', '');
 $form->addField('profile', '');
+$form->addField('permissions', '');
 $form->addField('bio', '');
 $form->addField('notify', '');
 $form->addField('newsletter', '');

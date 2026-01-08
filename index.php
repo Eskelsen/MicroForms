@@ -228,6 +228,17 @@ require_once 'app/Form.php';
                 </select>
             </div>
 
+            <div>
+                <label>Permissões</label>
+                <select name="permissions[]" multiple size="5">
+                    <option value="read">Leitura</option>
+                    <option value="write">Escrita</option>
+                    <option value="delete">Exclusão</option>
+                    <option value="export">Exportação</option>
+                    <option value="admin">Administração</option>
+                </select>
+            </div>
+
             <div class="full">
                 <label>Biografia</label>
                 <textarea name="bio" placeholder="Fale um pouco sobre você"></textarea>
@@ -266,41 +277,14 @@ require_once 'app/Form.php';
     </div>
 </div>
 
+<script src="toolkit.js"></script>
+
 <script>
 
-function microFormsFill(form, data) {
-  Object.entries(data).forEach(([name, value]) => {
-    const fields = form.querySelectorAll(`[name="${name}"]`);
+// const json = '{"name":"Daniel Eskelsen","email":"eskelsen@yahoo.com","password":"123123123","birth":"1988-02-27","age":"37","profile":"Administrador","bio":"Programador PHP Beta","notify":"on","newsletter":"","beta":"on","plan":"on"}';
+const json = '{"name":"Daniel Eskelsen","email":"eskelsen@yahoo.com","password":"123123","birth":"1988-02-27","age":"37","profile":"Administrador","permissions":["read","delete","admin"],"bio":"Programador PHP","notify":"on","newsletter":"","beta":"on","plan":"on"}';
 
-    fields.forEach(field => {
-      switch (field.type) {
-        case 'checkbox':
-          field.checked = value === 'on' || value === true || value === 1;
-          break;
-
-        case 'radio':
-          field.checked = field.value == value;
-          break;
-
-        case 'select-one':
-        case 'select-multiple':
-          field.value = value;
-          break;
-
-        default:
-          field.value = value ?? '';
-      }
-    });
-  });
-}
-
-let json = '{"name":"Daniel Eskelsen","email":"eskelsen@yahoo.com","password":"123123123","birth":"1988-02-27","age":"37","profile":"Administrador","bio":"Programador PHP Beta","notify":"on","newsletter":"","beta":"on","plan":"on"}';
-
-var data = JSON.parse(json);
-
-const form = document.querySelector('#form');
-
-microFormsFill(form, data);
+microFormsFill('form', json);
 
 </script>
 
