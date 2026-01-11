@@ -2,10 +2,13 @@
 
 session_start();
 
+$_SESSION['csrf_key'] = bin2hex(random_bytes(32));
+
 $_SESSION['idem_key'] = bin2hex(random_bytes(16));
 
 $_SESSION['idem_set'][] = $_SESSION['idem_key'];
 
+require_once 'app/helpers.php';
 require_once 'app/Form.php';
 
 ?><!DOCTYPE html>
