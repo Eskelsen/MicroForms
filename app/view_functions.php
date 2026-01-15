@@ -41,6 +41,30 @@ function buttonfy($args){
         </div>';
 }
 
-function modal($modal,$title,$msg,$label){
-	include 'toChange/' . 'modal.php';
+function modal($modal_id,$title,$msg){
+    return '<div class="modal fade" id="' . $modal_id . '" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title">' . $title . '</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body" id="microformsConfirmMessage">
+            ' . $msg . '
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal" id="microformsConfirmCancel">
+            Cancelar
+            </button>
+            <button class="btn btn-danger" id="microformsConfirmOk">
+            Confirmar
+            </button>
+        </div>
+
+        </div>
+    </div>
+    </div>';
 }

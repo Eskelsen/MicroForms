@@ -17,13 +17,13 @@
     include dirname(__DIR__, 1) . '/app/view_functions.php';
 
     ?>
-    Alerta
+    Alerta<hr>
     <?=  alertfy($args) ?>
-    Link
+    Link<hr>
     <?=  linkfy($argsc) ?>
-    Span
+    Span<hr>
     <?=  spanfy($argss) ?>
-    Botão
+    Botão<hr>
     <?=  buttonfy($argsb) ?>
 
     
