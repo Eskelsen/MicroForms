@@ -35,7 +35,7 @@
     </button>
   </section>
 
-  <section>
+  <section class="mb-5">
 
     <h4>Confirmação</h4>
 
@@ -47,6 +47,40 @@
     >
       Excluir
     </button>
+  </section>
+
+  <section>
+    <h4>Toggle</h4>
+<div class="form-check form-switch js-toggle">
+  <input
+    class="form-check-input"
+    type="checkbox"
+    role="switch"
+    id="userActive"
+    checked
+  >
+  <label class="form-check-label" for="userActive">
+    Ativo
+  </label>
+</div>
+  </section>
+
+    <section>
+<div class="form-check form-switch">
+  <input
+    class="form-check-input js-toggle"
+    type="checkbox"
+    role="switch"
+    id="userActive_5"
+    name="ativo"
+    checked
+    data-endpoint="/modal/api.json"
+    data-payload='{"id":5}'
+  >
+  <label class="form-check-label" for="userActive_5">
+    Usuário ativo
+  </label>
+</div>
   </section>
 
 </div>
@@ -72,6 +106,17 @@
   </div>
 </div>
 
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="appToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto" id="toastTitle">Sistema</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body" id="toastBody"></div>
+  </div>
+</div>
+
 <?php
 
 include dirname(__DIR__, 1) . '/app/view_functions.php';
@@ -83,6 +128,75 @@ include dirname(__DIR__, 1) . '/app/view_functions.php';
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+
+window.toast = function (message, type = 'success') {
+  const toastEl = document.getElementById('appToast');
+  const bodyEl = document.getElementById('toastBody');
+  const titleEl = document.getElementById('toastTitle');
+
+  bodyEl.textContent = message;
+
+  titleEl.textContent = type === 'error' ? 'Erro' : 'Sucesso';
+
+  toastEl.classList.remove('text-bg-success', 'text-bg-danger');
+  toastEl.classList.add(type === 'error' ? 'text-bg-danger' : 'text-bg-success');
+
+  const toast = bootstrap.Toast.getOrCreateInstance(toastEl, {
+    delay: 3000
+  });
+
+  toast.show();
+};
+
+window.Actions = {
+  post({ endpoint, data }) {
+    return fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(async r => {
+      const res = await r.json();
+      if (!r.ok || res.ok === false) throw res;
+      return res;
+    });
+  }
+};
+
+document.querySelectorAll('.js-toggle').forEach(toggle => {
+  toggle.addEventListener('change', e => {
+    const el = e.target;
+    const checked = el.checked;
+    const endpoint = el.dataset.endpoint;
+    const payload = JSON.parse(el.dataset.payload || '{}');
+
+    el.disabled = true;
+
+    Actions.post({
+      endpoint,
+      data: {
+        ...payload,
+        ativo: checked ? 1 : 0
+      }
+    })
+    .then(res => {
+      toast(res.message || 'Salvo com sucesso');
+    })
+    .catch(err => {
+      el.checked = !checked; // rollback visual
+      toast(err.message || 'Erro ao salvar', 'error');
+    })
+    .finally(() => {
+      el.disabled = false;
+    });
+  });
+});
+
+
+console.log('gato');
 
 document
   .querySelectorAll('[data-bs-toggle="tooltip"]')
