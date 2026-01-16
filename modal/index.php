@@ -58,6 +58,7 @@
     role="switch"
     id="userActive"
     checked
+    data-endpoint="/modal/api.json"
   >
   <label class="form-check-label" for="userActive">
     Ativo
@@ -149,19 +150,73 @@ window.toast = function (message, type = 'success') {
 };
 
 window.Actions = {
+  request({ method, endpoint, data }) {
+
+    const headers = {
+        'Accept': 'application/json'
+    };
+
+    const options = { method, headers };
+
+    if (data !== undefined) {
+        headers['Content-Type'] = 'application/json';
+        options.body = JSON.stringify(data);
+    }
+
+    return fetch(endpoint, options)
+      .then(async r => {
+        const res = await r.json();
+
+        // erro HTTP
+        if (!r.ok) {
+          throw res;
+        }
+
+        // erro de negócio
+        if (res.error) {
+          throw res;
+        }
+
+        return res;
+      });
+  },
+
   post({ endpoint, data }) {
-    return fetch(endpoint, {
+    return this.request({
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(async r => {
-      const res = await r.json();
-      if (!r.ok || res.ok === false) throw res;
-      return res;
+      endpoint,
+      data
+    });
+  },
+
+  get({ endpoint }) {
+    return this.request({
+      method: 'GET',
+      endpoint
+    });
+  },
+
+  put({ endpoint, data }) {
+    return this.request({
+      method: 'PUT',
+      endpoint,
+      data
+    });
+  },
+
+  patch({ endpoint, data }) {
+    return this.request({
+      method: 'PATCH',
+      endpoint,
+      data
+    });
+  },
+
+  delete({ endpoint, data }) {
+    return this.request({
+      method: 'DELETE',
+      endpoint,
+      data
     });
   }
 };
@@ -183,11 +238,11 @@ document.querySelectorAll('.js-toggle').forEach(toggle => {
       }
     })
     .then(res => {
-      toast(res.message || 'Salvo com sucesso');
+    toast(res.response || 'Salvo com sucesso');
     })
     .catch(err => {
-      el.checked = !checked; // rollback visual
-      toast(err.message || 'Erro ao salvar', 'error');
+    el.checked = !checked;
+    toast(err.error || 'Erro ao salvar', 'error');
     })
     .finally(() => {
       el.disabled = false;
