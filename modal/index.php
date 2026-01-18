@@ -58,7 +58,7 @@
     role="switch"
     id="userActive"
     checked
-    data-endpoint="/modal/api.json"
+    data-endpoint="./api.json"
   >
   <label class="form-check-label" for="userActive">
     Ativo
@@ -75,7 +75,7 @@
     id="userActive_5"
     name="ativo"
     checked
-    data-endpoint="/modal/api.json"
+    data-endpoint="./api.json"
     data-payload='{"id":5}'
   >
   <label class="form-check-label" for="userActive_5">
@@ -128,13 +128,13 @@ include dirname(__DIR__, 1) . '/app/view_functions.php';
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<script src="../toolkit.js"></script>
+
 <script>
 
 console.log('gato');
 
-document
-  .querySelectorAll('[data-bs-toggle="tooltip"]')
-  .forEach(el => new bootstrap.Tooltip(el));
+document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el));
 
 const microformsConfirmModalEl = document.getElementById('microformsConfirmModal');
 const microformsConfirmModal   = new bootstrap.Modal(microformsConfirmModalEl);
