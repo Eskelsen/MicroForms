@@ -6,6 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
+<?php
+
+include dirname(__DIR__, 1) . '/app/view_functions.php';
+include dirname(__DIR__, 1) . '/app/helpers.php';
+
+session_start();
+
+$url = url('/abc/def');
+
+?>
+
 <body class="bg-light">
 
 <div class="container py-5">
@@ -84,6 +96,10 @@
 </div>
   </section>
 
+<section class="mb-5 mt-5 col-3">
+  <?= linkfy($url,'danger','Boicote'); ?>
+</section>
+
 </div>
 
 <div class="modal fade" id="modalExemplo" tabindex="-1">
@@ -117,12 +133,6 @@
     <div class="toast-body" id="toastBody"></div>
   </div>
 </div>
-
-<?php
-
-include dirname(__DIR__, 1) . '/app/view_functions.php';
-
-?>
 
 <?= modal('microformsConfirmModal','Modality','E ae, cãraa'); ?>
 

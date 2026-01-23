@@ -15,3 +15,7 @@ function idem_used(){
     }
     unset($_SESSION['idem_set'][$chave]);
 }
+
+function url($in){
+    return './' . trim($in, '/') . '/?idem_key=' . $_SESSION['idem_key'];
+}

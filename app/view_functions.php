@@ -14,8 +14,7 @@ function alertfy($args){
         </div>';
 }
 
-function linkfy($args){
-        [$request,$color,$msg] = $args;
+function linkfy($request,$color,$msg){
         return '
         <div class="card mb-2">
             <a href="./' . $request . '" class="btn btn-' . $color . '">
@@ -28,7 +27,7 @@ function spanfy($args){
     [$color,$url,$icon] = $args;
     return '
             <a class="btn btn-' . $color . ' btn-sm text-white" href="' . $url . '">
-                <span class="material-icons-outlined md-12 align-text-top">' . $icon . '</span>
+                <span class="material-icons-outlined align-text-top">' . $icon . '</span>
             </a>';
 }
 
